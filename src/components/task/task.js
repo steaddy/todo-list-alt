@@ -15,13 +15,13 @@ export default class Task extends Component {
                         <span className="description">Active task</span>
                         <span className="created">created 5 minutes ago</span>
                     </label>
-                    <button className="icon icon-edit btn btn-outline-secondary btn-sm float-right">
+                    <button className="icon icon-edit btn btn-outline-secondary float-right">
                         <i className="fa fa-pencil"/>
                     </button>
-                    <button className="icon icon-delete btn btn-outline-secondary btn-sm float-right">
+                    <button className="icon icon-delete btn btn-outline-secondary float-right">
                         <i className="fa fa-trash-o" />
                     </button>
-                    <button className="icon icon-important btn btn-outline-secondary btn-sm float-right">
+                    <button className="icon icon-important btn btn-outline-secondary float-right">
                         <i className="fa fa-exclamation"/>
                     </button>
             </div>
