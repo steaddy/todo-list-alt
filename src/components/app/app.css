@@ -1,0 +1,12 @@
+ul {
+    list-style: none;
+}
+
+h1 {
+    text-align: center;
+}
+
+.app {
+    width: 500px;
+    margin: 30px auto;
+}
