@@ -1,6 +1,11 @@
 .view {
     width: 550px;
 }
+
+.description {
+    cursor: pointer;
+}
+
 .icon {
     margin-left: 3px;
     width: 40px;

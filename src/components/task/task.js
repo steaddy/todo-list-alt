@@ -4,30 +4,42 @@ import './task.css';
 export default class Task extends Component {
     constructor() {
         super();
+        this.onTaskClick = () => {
+            console.log('Done');
+        };
+        this.onImportantMark = () => {
+            console.log('Important Click');
+        };
     }
 
     render() {
-        let { text, done, important } = this.props;
+        let {text, done, important, onDelete} = this.props;
         let classNames = "view list-group-item ";
-        if(done) classNames += "done ";
-        if(important) classNames += "important ";
+        if (done) classNames += "done ";
+        if (important) classNames += "important ";
         return (
             <div className={ classNames }>
                 {/*<input className="toggle" type="checkbox"/>*/}
-                    <label>
-                        <span className="description">{ this.props.text }</span>
-                        {/*<span className="description">Active task</span>*/}
-                        {/*<span className="created">created 5 minutes ago</span>*/}
-                    </label>
-                    <button className="icon icon-edit btn btn-outline-success float-right">
-                        <i className="fa fa-pencil"/>
-                    </button>
-                    <button className="icon icon-delete btn btn-outline-danger float-right">
-                        <i className="fa fa-trash-o" />
-                    </button>
-                    <button className="icon icon-important btn btn-outline-success float-right">
-                        <i className="fa fa-exclamation"/>
-                    </button>
+                <label>
+                        <span className="description"
+                              onClick={ this.onTaskClick }
+                        >{ text }</span>
+                    {/*<span className="description">Active task</span>*/}
+                    {/*<span className="created">created 5 minutes ago</span>*/}
+                </label>
+                <button className="icon icon-edit btn btn-outline-success float-right">
+                    <i className="fa fa-pencil"/>
+                </button>
+                <button
+                    className="icon icon-delete btn btn-outline-danger float-right"
+                    onClick={ onDelete }
+                ><i className="fa fa-trash-o"/>
+                </button>
+                <button className="icon icon-important btn btn-outline-success float-right"
+                        onClick={ this.onImportantMark }
+                >
+                    <i className="fa fa-exclamation"/>
+                </button>
             </div>
         );
     }
