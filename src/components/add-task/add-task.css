@@ -5,3 +5,7 @@
 .add-task button {
     margin-left: 10px;
 }
+
+.add-task input {
+    width: 400px;
+}

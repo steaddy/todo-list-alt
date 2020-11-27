@@ -4,6 +4,7 @@ import TasksList from '../tasks-list';
 import TasksFilter from '../tasks-filter/';
 import SearchPanel from '../search-panel';
 import AddTask from '../add-task';
+import TasksCount from '../tasks-counter';
 
 export default class App extends Component {
     constructor() {
@@ -69,6 +70,8 @@ export default class App extends Component {
 
 
     render() {
+        let doneTasks = this.state.tasks.filter(el => el.done).length;
+        let tasksToDo = this.state.tasks.length - doneTasks;
         return (
             <div className="app">
                 <div className="header">
@@ -81,7 +84,10 @@ export default class App extends Component {
                            onToggleImportant={ this.onToggleImportant }
                 />
                 <div className="footer">
-                    <p>2 items done, 4 more to do</p>
+                    <TasksCount
+                        doneTasks={ doneTasks }
+                        tasksToDo={ tasksToDo }
+                    />
                     <SearchPanel/>
                     <TasksFilter/>
                 </div>
