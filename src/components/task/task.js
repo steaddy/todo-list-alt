@@ -2,18 +2,9 @@ import React, {Component} from 'react';
 import './task.css';
 
 export default class Task extends Component {
-    constructor() {
-        super();
-        this.onTaskClick = () => {
-            console.log('Done');
-        };
-        this.onImportantMark = () => {
-            console.log('Important Click');
-        };
-    }
 
     render() {
-        let {text, done, important, onDelete} = this.props;
+        let {text, done, important, onDelete, onToggleDone, onToggleImportant} = this.props;
         let classNames = "view list-group-item ";
         if (done) classNames += "done ";
         if (important) classNames += "important ";
@@ -22,7 +13,7 @@ export default class Task extends Component {
                 {/*<input className="toggle" type="checkbox"/>*/}
                 <label>
                         <span className="description"
-                              onClick={ this.onTaskClick }
+                              onClick={ onToggleDone }
                         >{ text }</span>
                     {/*<span className="description">Active task</span>*/}
                     {/*<span className="created">created 5 minutes ago</span>*/}
@@ -36,7 +27,7 @@ export default class Task extends Component {
                 ><i className="fa fa-trash-o"/>
                 </button>
                 <button className="icon icon-important btn btn-outline-success float-right"
-                        onClick={ this.onImportantMark }
+                        onClick={ onToggleImportant }
                 >
                     <i className="fa fa-exclamation"/>
                 </button>

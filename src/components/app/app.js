@@ -3,15 +3,30 @@ import './app.css';
 import TasksList from '../tasks-list';
 import TasksFilter from '../tasks-filter/';
 import SearchPanel from '../search-panel';
+import AddTask from '../add-task';
 
 export default class App extends Component {
     constructor() {
         super();
-        this.state = {tasks: [
-            {text: "Начать приложение ToDo", important: false, done: true, id: 1},
-            {text: "Тестировать приложение ToDo", important: true, done: false, id: 2},
-            {text: "Доработать приложение ToDo", important: true, done: false, id: 3}
-        ]};
+        this.taskCount = 100;
+
+        this.makeNewTask = (text) => {
+                return {
+                    text: text,
+                    important: false,
+                    done: false,
+                    id: this.taskCount++
+                };
+        };
+
+        this.state = {
+            tasks: [
+                this.makeNewTask("Начать приложение ToDo"),
+                this.makeNewTask("Тестировать приложение ToDo"),
+                this.makeNewTask("Доработать приложение ToDo")
+            ]
+        };
+
         this.deleteId = id => {
             this.setState(({ tasks }) => {
                 let idx = tasks.findIndex(el => el.id === id);
@@ -20,17 +35,50 @@ export default class App extends Component {
                 return {tasks: [...before, ...after]};
             })
         };
+
+
+        this.addNewTask = (text) => {
+            this.setState(({ tasks }) => {
+                return {tasks: [...tasks, this.makeNewTask("Empty Task Here")]};
+            })
+        };
+
+        this.onToggleDone = (id) => {
+            this.setState(({ tasks }) => {
+                let idx = tasks.findIndex(el => el.id === id);
+                let before = tasks.slice(0, idx);
+                let updatedEl = {...tasks[idx], done: !tasks[idx].done};
+                let after = tasks.slice(idx + 1);
+                return {tasks: [...before, updatedEl, ...after]};
+            })
+        };
+
+        this.onToggleImportant = (id) => {
+            this.setState(({ tasks }) => {
+                let idx = tasks.findIndex(el => el.id === id);
+                let before = tasks.slice(0, idx);
+                let updatedEl = {...tasks[idx], important: !tasks[idx].important};
+                let after = tasks.slice(idx + 1);
+                return {tasks: [...before, updatedEl, ...after]};
+            })
+        };
     }
+
+
+
+
+
     render() {
         return (
             <div className="app">
                 <div className="header">
                     <h1>My Tasks to Do</h1>
-                    <input type="text" placeholder="Put New Task Here"/>
-                    <button className="add btn btn-outline-secondary">Add</button>
+                    <AddTask addNewTask = { this.addNewTask }/>
                 </div>
                 <TasksList tasks={ this.state.tasks }
-                onDelete={ this.deleteId }
+                           onDelete={ this.deleteId }
+                           onToggleDone={ this.onToggleDone }
+                           onToggleImportant={ this.onToggleImportant }
                 />
                 <div className="footer">
                     <p>2 items done, 4 more to do</p>
