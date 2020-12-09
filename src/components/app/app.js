@@ -25,7 +25,9 @@ export default class App extends Component {
                 this.makeNewTask("Начать приложение ToDo"),
                 this.makeNewTask("Тестировать приложение ToDo"),
                 this.makeNewTask("Доработать приложение ToDo")
-            ]
+            ],
+            term: '',
+            filter: 'done'
         };
 
         this.deleteId = id => {
@@ -40,7 +42,7 @@ export default class App extends Component {
 
         this.addNewTask = (text) => {
             this.setState(({ tasks }) => {
-                return {tasks: [...tasks, this.makeNewTask("Empty Task Here")]};
+                return {tasks: [...tasks, this.makeNewTask(text)]};
             })
         };
 
@@ -63,6 +65,32 @@ export default class App extends Component {
                 return {tasks: [...before, updatedEl, ...after]};
             })
         };
+
+        this.search = (tasks, term) => {
+            if(term.length === 0) return tasks;
+            return tasks.filter(el => el.text.toLowerCase().indexOf(term.toLowerCase()) > -1);
+        }
+
+        this.onSearchChange = (term) => {
+            this.setState({ term });
+        }
+
+        this.onFilterChange = (filter) => {
+            this.setState({ filter });
+        }
+
+        this.filter = (tasks, filter) => {
+            switch(filter) {
+                case 'all':
+                    return tasks;
+                case 'active':
+                    return tasks.filter(el => el.done === false);
+                case 'done':
+                    return tasks.filter(el => el.done === true);
+                default:
+                    return tasks;
+            }
+        }
     }
 
 
@@ -70,15 +98,17 @@ export default class App extends Component {
 
 
     render() {
-        let doneTasks = this.state.tasks.filter(el => el.done).length;
-        let tasksToDo = this.state.tasks.length - doneTasks;
+        let { tasks, term, filter } = this.state;
+        let visibleTasks = this.filter(this.search(tasks, term), filter);
+        let doneTasks = tasks.filter(el => el.done).length;
+        let tasksToDo = tasks.length - doneTasks;
         return (
             <div className="app">
                 <div className="header">
                     <h1>My Tasks to Do</h1>
                     <AddTask addNewTask = { this.addNewTask }/>
                 </div>
-                <TasksList tasks={ this.state.tasks }
+                <TasksList tasks={ visibleTasks }
                            onDelete={ this.deleteId }
                            onToggleDone={ this.onToggleDone }
                            onToggleImportant={ this.onToggleImportant }
@@ -88,8 +118,11 @@ export default class App extends Component {
                         doneTasks={ doneTasks }
                         tasksToDo={ tasksToDo }
                     />
-                    <SearchPanel/>
-                    <TasksFilter/>
+                    <SearchPanel onSearchChange={ this.onSearchChange }/>
+                    <TasksFilter
+                        filter={ filter }
+                        onFilterChange={this.onFilterChange}
+                    />
                 </div>
             </div>
         );

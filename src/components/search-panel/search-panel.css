@@ -1,0 +1,11 @@
+.search-panel input {
+    width: 400px;
+}
+
+.search-panel button {
+    margin-left: 10px;
+}
+
+.search-panel {
+    margin: 10px 0;
+}
